@@ -2,15 +2,19 @@ package main
 
 import (
 	"context"
+	"log/slog"
 	"os"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	"eats/backend"
+	"eats/backend/common/log"
 )
 
 func main() {
 	ctx := context.Background()
+
+	log.Init(slog.LevelInfo)
 
 	dsn := os.Getenv("POSTGRES_URL")
 	if dsn == "" {
@@ -30,8 +34,7 @@ func main() {
 		panic(err)
 	}
 
-	err = svc.Run(":8080")
-	if err != nil {
+	if err := svc.Run(":8080"); err != nil {
 		panic(err)
 	}
 }
