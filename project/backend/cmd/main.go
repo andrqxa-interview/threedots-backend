@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"os"
 
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -23,7 +22,7 @@ func main() {
 		panic(err)
 	}
 
-	_, err = backend.New(
+	svc, err := backend.New(
 		ctx,
 		dbPgx,
 	)
@@ -31,5 +30,8 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println("Service initialized")
+	err = svc.Run(":8080")
+	if err != nil {
+		panic(err)
+	}
 }
